@@ -1,27 +1,11 @@
 const express = require("express");
-const crypto = require("crypto");
-const connection = require("./database/connection");
 const routes = express.Router();
+const userController = require("./controllers/UserController");
 
-routes.get('/users', async (req, res) => {
-    const users = await connection("users").select("*");
-    res.json(users);
-});
-
-routes.post('/users', async (req, res) => {
-    const {nome, email, idade, empresa} = req.body;
-    const id = crypto.randomBytes(4).toString('HEX');
-    const created_at = new Date().toUTCString();
-    await connection("users").insert(
-        {
-            id,
-            nome,
-            email,
-            idade,
-            empresa,
-            created_at,
-        }
-    );
-});
+routes.get('/users', userController.list);
+routes.get('/users/:id', userController.show);
+routes.post('/users', userController.create);
+routes.put('/users/:id', userController.update);
+routes.delete('/users/:id', userController.delete);
 
 module.exports = routes;

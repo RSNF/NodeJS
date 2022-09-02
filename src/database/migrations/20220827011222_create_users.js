@@ -10,6 +10,7 @@ exports.up = function(knex) {
         table.integer("idade");
         table.string("empresa");
         table.timestamp("created_at");
+        table.timestamp("updated_at");
     });
 };
 
